@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class HarmfulBird(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name="id", index = true)
     val id: Long,
     val name: String,
     val enemies: List<EnemyBird>,
