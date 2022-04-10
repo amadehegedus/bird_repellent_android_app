@@ -2,13 +2,11 @@ package hu.bme.aut.moblab.birdrepellent.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Timestamp
 
 @Entity
-data class HarmfulBird(
+data class EnemyBird(
     @PrimaryKey(autoGenerate = true)
     var id: Long,
     var name: String,
-    var active: Boolean,
-    var modified: Long
+    var harmfulBirdId: Long,
 )
