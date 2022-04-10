@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import hu.bme.aut.moblab.birdrepellent.model.EnemyBird
 import hu.bme.aut.moblab.birdrepellent.model.HarmfulBird
 
-@Database(entities = [HarmfulBird::class], version = 1)
+@Database(entities = [HarmfulBird::class, EnemyBird::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun harmfulBirdDao(): HarmfulBirdDao;
 
