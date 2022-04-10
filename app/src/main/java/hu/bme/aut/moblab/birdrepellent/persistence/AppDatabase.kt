@@ -4,13 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import hu.bme.aut.moblab.birdrepellent.model.EnemyBird
 import hu.bme.aut.moblab.birdrepellent.model.HarmfulBird
 
-@Database(entities = [HarmfulBird::class, EnemyBird::class], version = 1, exportSchema = true)
+@Database(entities = [HarmfulBird::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun harmfulBirdDao(): HarmfulBirdDao;
-    abstract fun enemyBirdDao(): EnemyBirdDao;
 
     companion object {
         @Volatile
@@ -20,7 +18,7 @@ abstract class AppDatabase: RoomDatabase() {
             return instance ?: synchronized(this) {
                 instance ?: Room.databaseBuilder(
                     context.applicationContext,
-                    AppDatabase::class.java, "repellent.db"
+                    AppDatabase::class.java, "bird_repellent.db"
                 )
                     .fallbackToDestructiveMigration()
                     .build()
