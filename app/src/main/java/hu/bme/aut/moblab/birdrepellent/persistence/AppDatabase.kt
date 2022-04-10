@@ -1,4 +1,31 @@
 package hu.bme.aut.moblab.birdrepellent.persistence
 
-class AppDatabase {
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import hu.bme.aut.moblab.birdrepellent.model.EnemyBird
+import hu.bme.aut.moblab.birdrepellent.model.HarmfulBird
+
+@Database(entities = [HarmfulBird::class, EnemyBird::class], version = 1, exportSchema = true)
+abstract class AppDatabase: RoomDatabase() {
+    abstract fun harmfulBirdDao(): HarmfulBirdDao;
+    abstract fun enemyBirdDao(): EnemyBirdDao;
+
+    companion object {
+        @Volatile
+        private var instance: AppDatabase? = null;
+
+        fun getInstance(context: Context): AppDatabase {
+            return instance ?: synchronized(this) {
+                instance ?: Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java, "repellent.db"
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
+                    .also { instance = it }
+            }
+        }
+    }
 }
