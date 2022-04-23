@@ -1,8 +1,7 @@
-package hu.bme.aut.moblab.birdrepellent.model
+package hu.bme.aut.moblab.birdrepellent.persistence.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Timestamp
 
 @Entity
 data class HarmfulBird(
