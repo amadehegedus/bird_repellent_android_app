@@ -16,7 +16,6 @@ paths:
       tags:
       - "recordings"
       summary: "Returns the bird sound recordings found"
-      operationId: "getInventory"
       produces:
       - "application/json"
       parameters:
