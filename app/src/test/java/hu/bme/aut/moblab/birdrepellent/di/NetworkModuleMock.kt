@@ -2,20 +2,23 @@ package hu.bme.aut.moblab.birdrepellent.di
 
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import hu.bme.aut.moblab.birdrepellent.network.SyncApi
 import hu.bme.aut.moblab.birdrepellent.network.XenoCantoApi
-import hu.bme.aut.moblab.birdrepellent.util.XENO_CANTO_BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-object NetworkModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [NetworkModule::class]
+)
+object NetworkModuleMock {
     @Provides
     @Singleton
     fun provideLoggingInterceptor() = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -28,8 +31,12 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient) = Retrofit.Builder()
-        .baseUrl(XENO_CANTO_BASE_URL)
+    fun provideMockWebServer(): MockWebServer = MockWebServer()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient, mockWebServer: MockWebServer) = Retrofit.Builder()
+        .baseUrl(mockWebServer.url("/"))
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()
