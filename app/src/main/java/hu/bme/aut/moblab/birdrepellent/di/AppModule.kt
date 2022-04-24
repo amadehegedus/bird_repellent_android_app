@@ -15,9 +15,7 @@ object AppModule {
     @ApplicationScope
     @Provides
     @Singleton
-    fun provideApplicationScope(): CoroutineScope {
-        return CoroutineScope(SupervisorJob())
-    }
+    fun provideApplicationScope() = CoroutineScope(SupervisorJob())
 }
 
 @Retention(AnnotationRetention.RUNTIME)
