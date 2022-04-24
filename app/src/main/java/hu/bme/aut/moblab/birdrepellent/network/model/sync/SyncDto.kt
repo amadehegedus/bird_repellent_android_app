@@ -26,6 +26,5 @@ data class PutSyncDto(
 
 data class DeleteSyncDto(
     var adminId: String = "",
-    var requestId: String = "",
-    var harmfulBirds: List<HarmfulBirdDto> = listOf()
+    var requestId: String = ""
 )
