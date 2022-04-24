@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import hu.bme.aut.moblab.birdrepellent.network.SyncApi
 import hu.bme.aut.moblab.birdrepellent.network.XenoCantoApi
 import hu.bme.aut.moblab.birdrepellent.util.XENO_CANTO_BASE_URL
 import okhttp3.OkHttpClient
@@ -36,4 +37,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideXenoCantoApi(retrofit: Retrofit) = retrofit.create(XenoCantoApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSyncApi(retrofit: Retrofit) = retrofit.create(SyncApi::class.java)
 }
