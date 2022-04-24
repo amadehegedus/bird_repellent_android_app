@@ -1,12 +1,14 @@
 package hu.bme.aut.moblab.birdrepellent.ui.main
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import hu.bme.aut.moblab.birdrepellent.network.model.xenocanto.XenoCantoResponse
+import hu.bme.aut.moblab.birdrepellent.persistence.model.HarmfulBird
 import hu.bme.aut.moblab.birdrepellent.repository.BirdRepellentRepository
 import hu.bme.aut.moblab.birdrepellent.util.Resource
 import kotlinx.coroutines.launch
@@ -22,12 +24,16 @@ class MainViewModel @Inject constructor(
 ): ViewModel() {
     public val birdSounds: MutableLiveData<Resource<XenoCantoResponse>> = MutableLiveData()
     public var xenoCantoResponse: XenoCantoResponse? = null;
+    public var harmfulBirds: LiveData<List<HarmfulBird>> = MutableLiveData()
 
     init {
-        loadBirdSounds()
+        //loadBirdSounds()
+        loadHarmfulBirds()
     }
 
     public fun loadBirdSounds() = viewModelScope.launch { fetchBirdSounds() }
+
+    public fun loadHarmfulBirds() = viewModelScope.launch { getHarmfulBirds() }
 
     private suspend fun fetchBirdSounds(){
         birdSounds.postValue(Resource.Loading())
@@ -56,5 +62,9 @@ class MainViewModel @Inject constructor(
             }
         }
         return Resource.Error(response.message())
+    }
+
+    private suspend fun getHarmfulBirds(){
+        harmfulBirds = birdRepellentRepository.getHarmfulBirds()
     }
 }

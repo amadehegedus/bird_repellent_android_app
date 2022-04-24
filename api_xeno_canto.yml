@@ -1,0 +1,94 @@
+swagger: "2.0"
+info:
+  description: "This is the documentation of [Xeno-canto](https://xeno-canto.org/) API which provide bird sound recordings."
+  version: "2.0"
+  title: "Xeno-canto API"
+host: "xeno-canto.org"
+basePath: "/api/2"
+tags:
+- name: "recordings"
+  description: "Access to bird sound recordings"
+schemes:
+- "https"
+paths:
+  /recordings:
+    get:
+      tags:
+      - "recordings"
+      summary: "Returns the bird sound recordings found"
+      produces:
+      - "application/json"
+      parameters:
+        - in: query
+          name: query
+          required: true
+          type: string
+          description: Xeno-canto query
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: '#/definitions/XenoCantoResponse'
+        "400":
+          description: "Error"
+          schema:
+            $ref: '#/definitions/XenoCantoError'
+
+definitions:
+  XenoCantoSound:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "the sound id"
+      en:
+        type: string
+        description: "the English name of the species"
+      cnt:
+        type: string
+        description: "the country where the recording was made"
+      url:
+        type: string
+        description: "the URL specifying the details of this recording"
+      file:
+        type: string
+        description: "the URL to the audio file"
+      q:
+        type: string
+        description: "the current quality rating for the recording"
+      length:
+        type: string
+        description: "the length of the recording in minutes"
+  XenoCantoResponse:
+    type: object
+    properties:
+      numRecordings:
+        type: string
+        description: "the total number of recordings found for this query"
+      numSpecies:
+        type: string
+        description: "the total number of species found for this query"
+      page:
+        type: integer
+        description: "the page number of the results page that is being displayed"
+      numPages:
+        type: integer
+        description: "the total number of pages available for this query"
+      recordings:
+        type: array
+        description: "an array of recording objects"
+        items:
+          $ref: '#/definitions/XenoCantoSound'
+  XenoCantoError:
+    type: object
+    properties:
+      error:
+        type: string
+        description: "the type of error"
+      message:
+        type: string
+        description: "the error description"
+
+externalDocs:
+  description: "Find out more about Xeno-canto API"
+  url: "https://xeno-canto.org/explore/api"

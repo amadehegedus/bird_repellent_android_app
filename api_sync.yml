@@ -1,0 +1,189 @@
+swagger: "2.0"
+info:
+  description: "This is the documentation of the Bird Repellent Sync API"
+  version: "1.0"
+  title: "Bird Repellent Sync API"
+host: "birdrepellent.nowton.hu"
+basePath: "/api/1"
+tags:
+- name: "sync"
+  description: "Access to synchronization functions"
+schemes:
+- "https"
+paths:
+  /sync/{requestId}:
+    get:
+      tags:
+      - "sync"
+      summary: "Returns a config"
+      produces:
+      - "application/json"
+      parameters:
+        - in: path
+          name: requestId
+          required: true
+          type: string
+          description: the request id of the config
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: '#/definitions/GetSyncDto'
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: '#/definitions/SyncErrorDto'
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/SyncErrorDto'
+            
+  /sync:
+    post:
+      tags:
+      - "sync"
+      summary: "Creates a new config"
+      produces:
+      - "application/json"
+      parameters:
+        - in: body
+          name: PostSyncDto
+          required: true
+          description: "a new config object"
+          schema:
+            $ref: '#/definitions/PostSyncDto'
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: '#/definitions/GetSyncDto'
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: '#/definitions/SyncErrorDto'
+    put:
+      tags:
+      - "sync"
+      summary: "Updates an existing config"
+      produces:
+      - "application/json"
+      parameters:
+        - in: body
+          name: PutSyncDto
+          required: true
+          description: "an update config object"
+          schema:
+            $ref: '#/definitions/PutSyncDto'
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: '#/definitions/GetSyncDto'
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: '#/definitions/SyncErrorDto'
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/SyncErrorDto'
+    delete:
+      tags:
+      - "sync"
+      summary: "Removes an existing config"
+      produces:
+      - "application/json"
+      parameters:
+        - in: body
+          name: DeleteSyncDto
+          required: true
+          description: "a delete config object"
+          schema:
+            $ref: '#/definitions/DeleteSyncDto'
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: '#/definitions/GetSyncDto'
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: '#/definitions/SyncErrorDto'
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/SyncErrorDto'
+
+definitions:
+  HarmfulBirdDto:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "the id of the harmful bird"
+      name:
+        type: string
+        description: "the name of the harmful bird"
+      enemies:
+        type: array
+        description: "array of enemies"
+        items:
+          type: string
+      active:
+        type: boolean
+        description: "the state of the repeller"
+  GetSyncDto:
+    type: object
+    properties:
+      requestId:
+        type: string
+        description: "the request id of the config"
+      harmfulBirds:
+        type: array
+        description: "array of harmful birds"
+        items:
+          $ref: '#/definitions/HarmfulBirdDto'
+  PostSyncDto:
+    type: object
+    properties:
+      adminId:
+        type: string
+        description: "the secure (admin) key of the config"
+      requestId:
+        type: string
+        description: "the request id of the config"
+      harmfulBirds:
+        type: array
+        description: "array of harmful birds"
+        items:
+          $ref: '#/definitions/HarmfulBirdDto'
+  PutSyncDto:
+    type: object
+    properties:
+      adminId:
+        type: string
+        description: "the secure (admin) key of the config"
+      requestId:
+        type: string
+        description: "the request id of the config"
+      harmfulBirds:
+        type: array
+        description: "array of harmful birds"
+        items:
+          $ref: '#/definitions/HarmfulBirdDto'
+  DeleteSyncDto:
+    type: object
+    properties:
+      adminId:
+        type: string
+        description: "the secure (admin) key of the config"
+      requestId:
+        type: string
+        description: "the request id of the config"
+  SyncErrorDto:
+    type: object
+    properties:
+      message:
+        type: string
+        description: "the error message"
+    
