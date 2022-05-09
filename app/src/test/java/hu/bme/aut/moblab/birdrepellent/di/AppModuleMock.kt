@@ -1,5 +1,6 @@
 package hu.bme.aut.moblab.birdrepellent.di
 
+import android.media.MediaPlayer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -19,6 +20,10 @@ object AppModuleMock {
     @Provides
     @Singleton
     fun provideApplicationScope() = CoroutineScope(SupervisorJob())
+
+    @Provides
+    @Singleton
+    fun provideMediaPlayer() = MediaPlayer()
 }
 
 @Retention(AnnotationRetention.RUNTIME)
