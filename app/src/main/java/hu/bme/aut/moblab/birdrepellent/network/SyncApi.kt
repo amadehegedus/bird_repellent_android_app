@@ -1,30 +1,23 @@
 package hu.bme.aut.moblab.birdrepellent.network
 
-import hu.bme.aut.moblab.birdrepellent.network.model.sync.DeleteSyncDto
-import hu.bme.aut.moblab.birdrepellent.network.model.sync.GetSyncDto
-import hu.bme.aut.moblab.birdrepellent.network.model.sync.PostSyncDto
-import hu.bme.aut.moblab.birdrepellent.network.model.sync.PutSyncDto
+import hu.bme.aut.moblab.birdrepellent.network.model.sync.*
 import retrofit2.Response
 import retrofit2.http.*
 
 interface SyncApi {
-    @GET("config/{requestId}")
+    @GET("sync/{id}")
     suspend fun getConfig(
-        @Path("requestId") requestId: String = "",
-    ): Response<GetSyncDto>
+        @Path("id") id: String = "",
+    ): Response<List<HarmfulBirdDto>>
 
-    @POST("config")
-    suspend fun postConfig(
-        @Body config: PostSyncDto
-    ): Response<GetSyncDto>
-
-    @PUT("config")
+    @PUT("sync/{id}")
     suspend fun putConfig(
-        @Body config: PutSyncDto
-    ): Response<GetSyncDto>
+        @Path("id") id: String = "",
+        @Body config: List<HarmfulBirdDto>
+    ): Response<List<HarmfulBirdDto>>
 
-    @DELETE("config")
+    @DELETE("sync/{id}")
     suspend fun deleteConfig(
-        @Body config: DeleteSyncDto
-    ): Response<GetSyncDto>
+        @Path("id") id: String = "",
+    )
 }

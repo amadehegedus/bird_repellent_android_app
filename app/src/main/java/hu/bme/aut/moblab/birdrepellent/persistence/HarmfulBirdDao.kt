@@ -9,15 +9,18 @@ interface HarmfulBirdDao {
     @Query("SELECT * FROM harmful_bird")
     fun getHarmfulBirds(): LiveData<List<HarmfulBird>>
 
+    @Query("SELECT * FROM harmful_bird WHERE id=:id")
+    fun getHarmfulBirdById(id: Long): LiveData<HarmfulBird>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertHarmfulBird(harmfulBird: HarmfulBird): Long
+    suspend fun insertHarmfulBird(harmfulBird: HarmfulBird): Long
 
     @Update
-    fun updateHarmfulBird(harmfulBird: HarmfulBird)
+    suspend fun updateHarmfulBird(harmfulBird: HarmfulBird)
 
     @Delete
-    fun deleteHarmfulBird(harmfulBird: HarmfulBird)
+    suspend fun deleteHarmfulBird(harmfulBird: HarmfulBird)
 
     @Query("DELETE FROM harmful_bird")
-    fun deleteAllHarmfulBirds()
+    suspend fun deleteAllHarmfulBirds()
 }

@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "harmful_bird")
 data class HarmfulBird(
     @PrimaryKey(autoGenerate = true)
-    var id : Long,
+    var id : Long?,
     var name: String = "",
-    var enemies: List<String> = listOf(),
+    var enemies: MutableList<String> = arrayListOf<String>(),
     var active: Boolean = true
 )
