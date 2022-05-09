@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/news_nav_graph"
+    app:startDestination="@id/harmfulBirdsFragment">
+
+    <fragment
+        android:id="@+id/harmfulBirdsFragment"
+        android:name="hu.bme.aut.moblab.birdrepellent.ui.harmfulbirds.HarmfulBirdsFragment"
+        android:label="fragment_harmful_birds"
+        tools:layout="@layout/fragment_harmful_birds" >
+        <action
+            android:id="@+id/action_to_enemies"
+            app:destination="@id/enemyBirdsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/enemyBirdsFragment"
+        android:name="hu.bme.aut.moblab.birdrepellent.ui.enemybirds.EnemyBirdsFragment"
+        android:label="fragment_enemy_birds"
+        tools:layout="@layout/fragment_enemy_birds" >
+    </fragment>
+</navigation>

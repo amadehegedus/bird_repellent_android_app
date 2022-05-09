@@ -1,11 +1,10 @@
 package hu.bme.aut.moblab.birdrepellent.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import hu.bme.aut.moblab.birdrepellent.network.SyncApi
 import hu.bme.aut.moblab.birdrepellent.network.XenoCantoApi
-import hu.bme.aut.moblab.birdrepellent.network.model.sync.DeleteSyncDto
-import hu.bme.aut.moblab.birdrepellent.network.model.sync.GetSyncDto
-import hu.bme.aut.moblab.birdrepellent.network.model.sync.PostSyncDto
-import hu.bme.aut.moblab.birdrepellent.network.model.sync.PutSyncDto
+import hu.bme.aut.moblab.birdrepellent.network.model.sync.*
 import hu.bme.aut.moblab.birdrepellent.persistence.HarmfulBirdDao
 import hu.bme.aut.moblab.birdrepellent.persistence.model.HarmfulBird
 import hu.bme.aut.moblab.birdrepellent.util.XENO_CANTO_BASE_URL
@@ -19,10 +18,12 @@ class BirdRepellentRepository @Inject constructor(
     private val harmfulBirdDao: HarmfulBirdDao
 ){
     //XenoCanto (bird sounds) API
-    suspend fun fetchBirdSounds() = xenoCantoApi.getBirdSounds("cnt:brazil")
+    suspend fun fetchBirdSounds(bird: String) = xenoCantoApi.getBirdSounds(bird)
 
     //Local DB
-    suspend fun getHarmfulBirds() = harmfulBirdDao.getHarmfulBirds()
+    fun getHarmfulBirds() = harmfulBirdDao.getHarmfulBirds()
+
+    fun getHarmfulBirdById(id: Long) = harmfulBirdDao.getHarmfulBirdById(id)
 
     suspend fun insertHarmfulBird(harmfulBird: HarmfulBird) = harmfulBirdDao.insertHarmfulBird(harmfulBird)
 
@@ -33,12 +34,11 @@ class BirdRepellentRepository @Inject constructor(
     suspend fun deleteAllHarmfulBirds() = harmfulBirdDao.deleteAllHarmfulBirds()
 
     //Sync server
-    suspend fun createConfigOnServer(dto: PostSyncDto) = syncApi.postConfig(dto)
 
-    suspend fun updateConfigOnServer(dto: PutSyncDto) = syncApi.putConfig(dto)
+    suspend fun uploadConfig(id: String, config: List<HarmfulBirdDto>) = syncApi.putConfig(id, config)
 
-    suspend fun deleteConfigOnServer(dto: DeleteSyncDto) = syncApi.deleteConfig(dto)
+    suspend fun deleteConfig(id: String) = syncApi.deleteConfig(id)
 
-    suspend fun fetchConfig(requestId: String) = syncApi.getConfig(requestId)
+    suspend fun downloadConfig(id: String) = syncApi.getConfig(id)
 
 }

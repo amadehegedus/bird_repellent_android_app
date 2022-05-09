@@ -1,0 +1,33 @@
+version: "3"
+services:
+  sync_server:
+    container_name: sync_server
+    build:
+      context: ./sync
+      dockerfile: Dockerfile
+    volumes:
+      - ./sync:/src
+      - /src/node_modules
+    restart: always
+    command: nodemon
+    environment:
+      PORT: 3000
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    networks:
+      - sync_network
+  redis:
+    container_name: redis
+    image: redis:6.2.6
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - sync_network
+networks:
+  sync_network:
+    driver: bridge
